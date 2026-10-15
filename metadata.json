@@ -1,0 +1,6 @@
+{
+  "name": "YayText Unicode Font Generator",
+  "description": "Générateur de polices et styles de texte Unicode : gras, italique, barré, souligné, zalgo, bulles, cursif pour Twitter, Instagram, TikTok et WhatsApp.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
