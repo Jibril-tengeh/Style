@@ -4,37 +4,36 @@ Ce projet est configuré pour être compilé en application mobile native Androi
 
 ---
 
-## 1. Résolution des erreurs résolues pour GitHub Actions
+## 1. Explication du correctif GitHub Actions
 
-1. **Erreur `Dependencies lock file is not found`** :
-   - Corrigée dans le workflow : `cache: 'npm'` et `npm ci` ont été remplacés par `npm install --legacy-peer-deps`. Le build réussit désormais automatiquement sans exiger de fichier lock rigide.
-2. **Version Java JDK 21** :
-   - Le workflow a été mis à niveau de JDK 17 vers **JDK 21** (`java-version: '21'`), requis par les dernières versions de Gradle 8+ et Capacitor 7/8.
+- **Erreur `sdkmanager failed with exit code 1` résolue** : L'action tierce `android-actions/setup-android@v3` provoquait un conflit avec le gestionnaire de SDK. Sur les serveurs GitHub Actions (`ubuntu-latest`), le **SDK Android officiel est déjà préinstallé nativement**. Cette étape redondante a donc été retirée.
+- **Java JDK 21 (Temurin)** : Utilise Eclipse Temurin JDK 21, la distribution officielle recommandée pour les builds Gradle 8+ et Capacitor.
+- **Node.js 22** : Utilise la version stable LTS pour éviter les avertissements de dépréciation.
 
 ---
 
 ## 2. Compilation automatique via GitHub Actions (Recommandé)
 
-Le fichier `.github/workflows/capacitor-build.yml` est prêt à l'emploi.
+Le fichier `.github/workflows/capacitor-build.yml` est opérationnel.
 
-### Étapes pour obtenir votre fichier APK :
-1. Poussez votre code sur votre dépôt GitHub (`git push origin main`).
-2. Allez sur votre dépôt GitHub dans l'onglet **Actions**.
-3. Cliquez sur le workflow **Build Capacitor Android App** (ou déclenchez-le avec **Run workflow**).
-4. Une fois l'exécution terminée (en vert), téléchargez l'artefact **`yaytext-debug-apk`**.
-5. Installez directement le fichier `.apk` sur votre téléphone Android !
+### Pour lancer la compilation :
+1. Poussez votre code sur GitHub (`git add .`, `git commit -m "Fix Android CI"`, `git push origin main`).
+2. Ouvrez l'onglet **Actions** de votre dépôt GitHub.
+3. Cliquez sur **Build Capacitor Android App** (ou utilisez **Run workflow**).
+4. Une fois terminé avec succès (coche verte), téléchargez l'artefact **`yaytext-debug-apk`**.
+5. Vous obtenez directement le fichier **`app-debug.apk`** prêt à être installé sur votre téléphone !
 
 ---
 
-## 3. Commandes utiles en local (si vous avez Node / Android Studio)
+## 3. Commandes utiles en local (si vous avez Android Studio ou Node installé)
 
 ```bash
-# Compiler le code Web
+# 1. Compiler le code Web
 npm run build
 
-# Synchroniser avec le projet Android natif
+# 2. Synchroniser les assets avec le projet Android natif
 npm run cap:sync
 
-# Ouvrir dans Android Studio
+# 3. Ouvrir dans Android Studio
 npm run cap:android
 ```
