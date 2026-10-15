@@ -1,0 +1,8 @@
+{
+	"appId": "com.yaytext.unicodefonts",
+	"appName": "YayText",
+	"webDir": "dist",
+	"server": {
+		"androidScheme": "https"
+	}
+}

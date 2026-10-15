@@ -4,41 +4,37 @@ Ce projet est configuré pour être compilé en application mobile native Androi
 
 ---
 
-## 1. Compilation automatique via GitHub Actions (Sans Android Studio sur votre PC)
+## 1. Résolution des erreurs résolues pour GitHub Actions
 
-Un workflow d'intégration continue est déjà prêt dans `.github/workflows/capacitor-build.yml`.
+1. **Erreur `Dependencies lock file is not found`** :
+   - Corrigée dans le workflow : `cache: 'npm'` et `npm ci` ont été remplacés par `npm install --legacy-peer-deps`. Le build réussit désormais automatiquement sans exiger de fichier lock rigide.
+2. **Version Java JDK 21** :
+   - Le workflow a été mis à niveau de JDK 17 vers **JDK 21** (`java-version: '21'`), requis par les dernières versions de Gradle 8+ et Capacitor 7/8.
+
+---
+
+## 2. Compilation automatique via GitHub Actions (Recommandé)
+
+Le fichier `.github/workflows/capacitor-build.yml` est prêt à l'emploi.
 
 ### Étapes pour obtenir votre fichier APK :
 1. Poussez votre code sur votre dépôt GitHub (`git push origin main`).
 2. Allez sur votre dépôt GitHub dans l'onglet **Actions**.
-3. Cliquez sur le workflow **Build Capacitor Android App** (ou déclenchez-le manuellement avec **Run workflow**).
-4. Une fois la compilation terminée, téléchargez l'artefact **`yaytext-debug-apk`** contenant votre fichier `app-debug.apk`.
+3. Cliquez sur le workflow **Build Capacitor Android App** (ou déclenchez-le avec **Run workflow**).
+4. Une fois l'exécution terminée (en vert), téléchargez l'artefact **`yaytext-debug-apk`**.
 5. Installez directement le fichier `.apk` sur votre téléphone Android !
 
 ---
 
-## 2. Commandes utiles en local (si vous avez Android Studio ou Node installé)
+## 3. Commandes utiles en local (si vous avez Node / Android Studio)
 
 ```bash
-# 1. Compiler le code Web
+# Compiler le code Web
 npm run build
 
-# 2. Initialiser la plateforme Android (première fois uniquement)
-npx cap add android
-
-# 3. Synchroniser les assets avec le projet natif
+# Synchroniser avec le projet Android natif
 npm run cap:sync
 
-# 4. Ouvrir le projet dans Android Studio pour tester sur émulateur ou appareil
+# Ouvrir dans Android Studio
 npm run cap:android
 ```
-
----
-
-## 3. Configuration de l'application (`capacitor.config.ts`)
-
-- **`appId`** : `com.yaytext.unicodefonts` (identifiant unique de votre paquet)
-- **`appName`** : `YayText` (nom affiché sur l'écran d'accueil du téléphone)
-- **`webDir`** : `dist` (dossier de sortie de Vite)
-- **`server.androidScheme`** : `https` (permet le support sécurisé moderne des WebViews)
-- **Safe Area Insets** : Déjà pris en compte dans le code CSS pour respecter l'encoche et la barre d'état Android/iOS.
